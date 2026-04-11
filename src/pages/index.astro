@@ -1,0 +1,93 @@
+---
+import Layout from '@/layouts/main.astro';
+import { HistoryList } from '@/components/react/HistoryList';
+import { DraftResumeDialog } from '@/components/react/DraftResumeDialog';
+import { ThemeToggle } from '@/components/react/ThemeToggle';
+import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { AlertCircle, Stethoscope } from 'lucide-react';
+---
+
+<Layout title="Servicio Luna | Evaluador Clínico">
+  <main class="h-screen w-full flex flex-col xl:flex-row overflow-hidden bg-background">
+
+    {/* ── Panel lateral ── */}
+    <div class="xl:w-[45%] relative border-r border-border/40 flex-col justify-center p-10 lg:p-14 overflow-hidden hidden xl:flex h-full">
+      <div class="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-primary/20 blur-[120px] pointer-events-none" />
+      <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-secondary-foreground/10 blur-[100px] pointer-events-none" />
+      <div class="absolute inset-0 bg-size-[40px_40px] bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] mask-[radial-gradient(ellipse_60%_60%_at_50%_50%,#000_20%,transparent_100%)] pointer-events-none" />
+
+      <div class="relative z-10 max-w-xl mx-auto animate-fade-in-up">
+        <div class="inline-flex items-center gap-3 mb-8 w-max px-4 py-2 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md">
+          <Stethoscope className="w-5 h-5 text-primary" />
+          <span class="font-heading font-medium text-sm text-primary">Estándares en Salud — Colombia</span>
+        </div>
+        <h2 class="font-heading text-5xl font-bold text-foreground mb-6 leading-[1.1] tracking-tight">
+          Precisión Clínica<br />
+          <span class="text-transparent bg-clip-text bg-linear-to-br from-primary to-accent-foreground">
+            Aseguramiento Tecnológico.
+          </span>
+        </h2>
+        <p class="font-body text-muted-foreground text-lg leading-relaxed max-w-lg">
+          Plataforma de evaluación normativa diseñada para garantizar el estándar más alto en habilitación de infraestructura y dotación radiológica odontológica.
+        </p>
+      </div>
+    </div>
+
+    {/* ── Panel derecho: contenido completo en columna, sin scroll externo ── */}
+    <div class="flex-1 h-full flex flex-col overflow-hidden relative">
+
+      {/* ThemeToggle fijo en esquina */}
+      <div class="absolute top-4 right-4 z-50">
+        <ThemeToggle client:load />
+      </div>
+
+      {/* Zona superior: hero text + botón — no ocupa más de lo necesario */}
+      <div class="shrink-0 px-6 pt-10 pb-4 sm:px-12 sm:pt-14 sm:pb-6 max-w-2xl w-full mx-auto space-y-6">
+        {/* Badge mobile only */}
+        <div class="xl:hidden inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
+          <Stethoscope className="w-4 h-4 text-primary" />
+          <span class="font-heading text-xs font-medium text-primary">Resolución 3100 de 2019</span>
+        </div>
+
+        <div>
+          <span class="hidden xl:block font-heading uppercase tracking-widest text-xs font-bold text-muted-foreground mb-2">
+            Resolución 3100 de 2019
+          </span>
+          <h1 class="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+            Servicio Luna Evaluator
+          </h1>
+          <p class="font-body text-foreground/70 text-base sm:text-lg leading-relaxed mt-3">
+            Realice un autodiagnóstico exhaustivo evaluando los 30 criterios legales requeridos antes de la postulación formal en el REPS.
+          </p>
+        </div>
+
+        <Alert className="border-primary/20 bg-primary/5 backdrop-blur-sm relative overflow-hidden group">
+          <AlertCircle className="h-4 w-4 text-primary mt-0.5" />
+          <div class="ml-2">
+            <AlertTitle className="font-heading font-semibold text-primary text-sm">Aviso Normativo</AlertTitle>
+            <AlertDescription className="font-body text-foreground/80 mt-0.5 text-xs leading-relaxed">
+              Los resultados son orientación técnica de autoevaluación. No reemplazan el concepto legal vinculante de las secretarías departamentales de salud.
+            </AlertDescription>
+          </div>
+        </Alert>
+
+        <a href="/evaluacion" class="inline-block">
+          <Button size="lg" className="cursor-pointer font-heading font-semibold text-base bg-primary hover:bg-primary/90 text-primary-foreground h-12 px-8 shadow-[0_4px_25px_rgba(0,0,0,0.15)] transition-all hover:scale-[1.02] active:scale-[0.98]">
+            Iniciar Evaluación
+          </Button>
+        </a>
+      </div>
+
+      {/* Divider */}
+      <div class="shrink-0 border-t border-border/40 mx-6 sm:mx-12" />
+
+      {/* Zona inferior: historial — ocupa el resto de la altura y puede scrollear internamente */}
+      <div class="flex-1 overflow-y-auto px-6 py-6 sm:px-12 sm:py-8 min-h-0">
+        <HistoryList client:load />
+      </div>
+    </div>
+
+    <DraftResumeDialog client:load />
+  </main>
+</Layout>

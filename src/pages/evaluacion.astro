@@ -1,0 +1,12 @@
+---
+import Layout from '@/layouts/main.astro';
+import { EvaluationWizard } from '@/components/react/EvaluationWizard';
+---
+
+<Layout title="Evaluación | Servicio Luna">
+  <div class="min-h-screen bg-muted/30 dark:bg-background py-8 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto">
+      <EvaluationWizard client:load />
+    </div>
+  </div>
+</Layout>

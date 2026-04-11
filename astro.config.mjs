@@ -6,8 +6,8 @@ import react from "@astrojs/react";
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://burbanoluna714.github.io',
-  base: 'proyecto-ing-clinica',
+  site: 'https://radiologia-odontologica.vercel.app/',
+  base: '/',
   vite: {
     plugins: [tailwindcss()],
     server: {

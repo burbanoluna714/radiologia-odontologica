@@ -16,9 +16,9 @@ export interface SectionConfig {
 }
 
 export const SECTIONS = [
-  { key: "talento_humano",             prefix: "TH",  label: "Talento Humano" },
   { key: "infraestructura",            prefix: "INF", label: "Infraestructura" },
   { key: "dotacion",                   prefix: "DOT", label: "Dotación" },
+  { key: "talento_humano",             prefix: "TH",  label: "Talento Humano" },
   { key: "medicamentos_dispositivos",  prefix: "MDI", label: "Medicamentos, Dispositivos Médicos e Insumos" },
   { key: "procesos_prioritarios",      prefix: "PRO", label: "Procesos Prioritarios" },
   { key: "historia_clinica",           prefix: "HCR", label: "Historia Clínica y Registros" },

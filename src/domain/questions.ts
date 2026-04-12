@@ -49,7 +49,7 @@ const talentoHumanoQuestions = defineQuestions("talento_humano", {
   todos_servicios: [
     {
       criterion: "Formación del operador",
-      text: "El servicio cuenta con talento humano en salud con formación acorde a los servicios ofertados.",
+      text: "El talento humano en salud cuenta con título otorgado por una entidad educativa competente.",
       reference: "Res. 3100/2019",
       findingText: "El operador no posee formación académica acreditada en salud.",
       recommendation: "Verificar y archivar título o diploma del operador del equipo radiográfico.",

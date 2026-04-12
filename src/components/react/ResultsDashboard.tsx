@@ -13,6 +13,7 @@ import { Progress } from "@/components/ui/progress";
 import { AlertCircle, CheckCircle2, ChevronLeft } from "lucide-react";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { ThemeToggle } from "./ThemeToggle";
+import { DashboardCharts } from "./DashboardCharts";
 
 interface Props {
   result: EvaluationResult;
@@ -54,58 +55,8 @@ export function ResultsDashboard({ result, onRestart }: Props) {
         </div>
       </div>
 
-      {/* Score per section */}
-      <div>
-        <h3 className="font-heading font-semibold text-sm text-muted-foreground uppercase tracking-wider mb-3">
-          Puntaje por Sección
-        </h3>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {SECTIONS.map((section) => {
-            const score = diagnosis.sectionScores[section.key as SectionKey] ?? 0;
-            const scoreClass =
-              score >= 90
-                ? "text-green-600 dark:text-green-400"
-                : score >= 60
-                  ? "text-yellow-600 dark:text-yellow-400"
-                  : "text-destructive";
-
-            return (
-              <Card key={section.key}>
-                <CardHeader className="pb-2 pt-4 px-4">
-                  <CardTitle className="text-xs font-heading text-muted-foreground uppercase tracking-wider leading-tight">
-                    {section.label}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="px-4 pb-4">
-                  <div className="flex items-center gap-3">
-                    <Progress value={score} className="h-2.5 flex-1" />
-                    <span className={`font-heading font-bold text-base tabular-nums w-12 text-right ${scoreClass}`}>
-                      {score}%
-                    </span>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-
-          {/* Total */}
-          <Card className="border-primary/30 bg-primary/5 sm:col-span-2 lg:col-span-1">
-            <CardHeader className="pb-2 pt-4 px-4">
-              <CardTitle className="text-xs font-heading text-primary uppercase tracking-wider">
-                Puntaje Total
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="px-4 pb-4">
-              <div className="flex items-center gap-3">
-                <Progress value={diagnosis.totalScore} className="h-2.5 flex-1" />
-                <span className="font-heading font-bold text-base tabular-nums w-12 text-right text-primary">
-                  {diagnosis.totalScore}%
-                </span>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+      {/* Scores Dashboard */}
+      <DashboardCharts diagnosis={diagnosis} />
 
       {/* Findings */}
       {diagnosis.findings.length > 0 && (

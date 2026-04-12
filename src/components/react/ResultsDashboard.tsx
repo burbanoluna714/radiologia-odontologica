@@ -1,4 +1,5 @@
-import type { Diagnosis, EvaluationResult } from "@/domain/types";
+import type { EvaluationResult } from "@/domain/types";
+import { SECTIONS, type SectionKey } from "@/domain/sections";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -21,80 +22,98 @@ interface Props {
 export function ResultsDashboard({ result, onRestart }: Props) {
   const { diagnosis } = result;
 
+  const overallLabel =
+    diagnosis.overall === "cumple"
+      ? "CUMPLE NORMATIVA"
+      : diagnosis.overall === "cumple_parcialmente"
+        ? "CUMPLE PARCIALMENTE"
+        : "NO CUMPLE NORMATIVA";
+
+  const overallBadgeClass =
+    diagnosis.overall === "cumple"
+      ? "bg-green-500 hover:bg-green-600 text-white"
+      : diagnosis.overall === "cumple_parcialmente"
+        ? "bg-yellow-500 hover:bg-yellow-600 text-white"
+        : "bg-destructive hover:bg-destructive/90 text-white";
+
+  const overallMessage =
+    diagnosis.overall === "cumple"
+      ? "Estás preparado para el proceso de inscripción en el REPS para Radiología Odontológica."
+      : diagnosis.overall === "cumple_parcialmente"
+        ? "Existen algunos detalles menores por ajustar pero la base es sólida."
+        : "Es indispensable resolver los hallazgos críticos antes de proceder con el registro.";
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      {/* Overall verdict */}
       <div className="text-center space-y-4">
-        <h2 className="text-3xl font-heading font-bold">
-          Resumen de Evaluación
-        </h2>
+        <h2 className="text-3xl font-heading font-bold">Resumen de Evaluación</h2>
         <p className="text-muted-foreground font-body">ID: {result.id}</p>
 
         <div className="inline-block p-6 rounded-2xl bg-card border shadow-sm mt-4">
-          <Badge
-            className={`text-xl px-4 py-2 font-heading shadow-sm ${
-              diagnosis.overall === "cumple"
-                ? "bg-green-500 hover:bg-green-600 text-white"
-                : diagnosis.overall === "cumple_parcialmente"
-                  ? "bg-yellow-500 hover:bg-yellow-600 text-white"
-                  : "bg-destructive hover:bg-destructive/90 text-white"
-            }`}
-          >
-            {diagnosis.overall === "cumple"
-              ? "CUMPLE NORMATIVA"
-              : diagnosis.overall === "cumple_parcialmente"
-                ? "CUMPLE PARCIALMENTE"
-                : "NO CUMPLE NORMATIVA"}
+          <Badge className={`text-xl px-4 py-2 font-heading shadow-sm ${overallBadgeClass}`}>
+            {overallLabel}
           </Badge>
           <div className="mt-4 text-sm font-body text-muted-foreground max-w-sm mx-auto">
-            {diagnosis.overall === "cumple" &&
-              "Estás preparado para el proceso de inscripción en el REPS para Radiología Odontológica."}
-            {diagnosis.overall === "cumple_parcialmente" &&
-              "Existen algunos detalles menores por ajustar pero la base es sólida."}
-            {diagnosis.overall === "no_cumple" &&
-              "Es indispensable resolver los hallazgos críticos antes de proceder con el registro."}
+            {overallMessage}
           </div>
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-heading text-muted-foreground uppercase tracking-wider">
-              Infraestructura
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-4">
-              <Progress
-                value={diagnosis.infrastructureScore}
-                className="h-3 flex-1"
-              />
-              <span className="font-heading font-bold text-xl tabular-nums w-14 text-right">
-                {diagnosis.infrastructureScore}%
-              </span>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-heading text-muted-foreground uppercase tracking-wider">
-              Dotación
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-4">
-              <Progress
-                value={diagnosis.equipmentScore}
-                className="h-3 flex-1"
-              />
-              <span className="font-heading font-bold text-xl tabular-nums w-14 text-right">
-                {diagnosis.equipmentScore}%
-              </span>
-            </div>
-          </CardContent>
-        </Card>
+      {/* Score per section */}
+      <div>
+        <h3 className="font-heading font-semibold text-sm text-muted-foreground uppercase tracking-wider mb-3">
+          Puntaje por Sección
+        </h3>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {SECTIONS.map((section) => {
+            const score = diagnosis.sectionScores[section.key as SectionKey] ?? 0;
+            const scoreClass =
+              score >= 90
+                ? "text-green-600 dark:text-green-400"
+                : score >= 60
+                  ? "text-yellow-600 dark:text-yellow-400"
+                  : "text-destructive";
+
+            return (
+              <Card key={section.key}>
+                <CardHeader className="pb-2 pt-4 px-4">
+                  <CardTitle className="text-xs font-heading text-muted-foreground uppercase tracking-wider leading-tight">
+                    {section.label}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="px-4 pb-4">
+                  <div className="flex items-center gap-3">
+                    <Progress value={score} className="h-2.5 flex-1" />
+                    <span className={`font-heading font-bold text-base tabular-nums w-12 text-right ${scoreClass}`}>
+                      {score}%
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+
+          {/* Total */}
+          <Card className="border-primary/30 bg-primary/5 sm:col-span-2 lg:col-span-1">
+            <CardHeader className="pb-2 pt-4 px-4">
+              <CardTitle className="text-xs font-heading text-primary uppercase tracking-wider">
+                Puntaje Total
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="px-4 pb-4">
+              <div className="flex items-center gap-3">
+                <Progress value={diagnosis.totalScore} className="h-2.5 flex-1" />
+                <span className="font-heading font-bold text-base tabular-nums w-12 text-right text-primary">
+                  {diagnosis.totalScore}%
+                </span>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
 
+      {/* Findings */}
       {diagnosis.findings.length > 0 && (
         <Card className="border-destructive/50 bg-destructive/5">
           <CardHeader>
@@ -108,16 +127,12 @@ export function ResultsDashboard({ result, onRestart }: Props) {
               Se requiere atención en los siguientes criterios:
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-3">
             {diagnosis.findings.map((finding) => (
-              <Alert
-                key={finding.questionId}
-                variant="destructive"
-                className="bg-background"
-              >
+              <Alert key={finding.questionId} variant="destructive" className="bg-background">
                 <AlertCircle className="h-4 w-4" />
                 <AlertTitle className="font-body font-semibold">
-                  {finding.questionId} - {finding.criterion}
+                  {finding.questionId} — {finding.criterion}
                 </AlertTitle>
                 <AlertDescription className="font-body mt-1">
                   {finding.detail}
@@ -128,6 +143,7 @@ export function ResultsDashboard({ result, onRestart }: Props) {
         </Card>
       )}
 
+      {/* Recommendations */}
       {diagnosis.recommendations.length > 0 && (
         <Card className="border-primary/30 bg-primary/5">
           <CardHeader>
@@ -151,17 +167,13 @@ export function ResultsDashboard({ result, onRestart }: Props) {
         </Card>
       )}
 
+      {/* Footer actions */}
       <div className="flex flex-row justify-between items-center gap-3 pt-6 border-t">
         <div className="flex gap-2 items-center">
           <a href="/" className="w-full sm:w-auto">
-            <Button
-              variant="outline"
-              className="cursor-pointer w-full sm:w-auto font-heading gap-2"
-            >
+            <Button variant="outline" className="cursor-pointer w-full sm:w-auto font-heading gap-2">
               <ChevronLeft className="h-4 w-4" />
-              <span className="hidden sm:inline">
-                Volver al Inicio
-                </span>
+              <span className="hidden sm:inline">Volver al Inicio</span>
             </Button>
           </a>
           <ThemeToggle />

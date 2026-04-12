@@ -1,4 +1,5 @@
-import { infrastructureQuestions, equipmentQuestions } from "@/domain/questions";
+import { SECTIONS, type SectionKey } from "@/domain/sections";
+import { ALL_SECTIONS_QUESTIONS } from "@/domain/questions";
 import type { EvaluationDraft, EvaluationResult, AnswerValue } from "@/domain/types";
 import { evaluateDiagnosis } from "@/domain/evaluation";
 import { saveResult, clearDraft } from "@/lib/storage";
@@ -17,33 +18,30 @@ interface Props {
 
 export function DevTools({ setDraft, setResult }: Props) {
   const fillAndComplete = (mode: "all-pass" | "some-fail") => {
-    const infrastructureAnswers: Record<string, AnswerValue> = {};
-    const equipmentAnswers: Record<string, AnswerValue> = {};
-
-    infrastructureQuestions.forEach((q) => {
-      infrastructureAnswers[q.id] = "cumple";
-    });
-
-    equipmentQuestions.forEach((q, index) => {
-      if (mode === "some-fail" && index % 4 === 0) {
-        equipmentAnswers[q.id] = "no_cumple";
-      } else {
-        equipmentAnswers[q.id] = "cumple";
-      }
-    });
+    // Build answers for ALL sections dynamically
+    const answers = Object.fromEntries(
+      SECTIONS.map((section) => {
+        const sectionAnswers: Record<string, AnswerValue> = {};
+        ALL_SECTIONS_QUESTIONS[section.key as SectionKey].forEach((q, index) => {
+          if (mode === "some-fail" && index % 4 === 0) {
+            sectionAnswers[q.id] = "no_cumple";
+          } else {
+            sectionAnswers[q.id] = "cumple";
+          }
+        });
+        return [section.key, sectionAnswers];
+      })
+    ) as Record<SectionKey, Record<string, AnswerValue>>;
 
     const finalDraft: EvaluationDraft = {
-      currentStep: 2,
+      currentStep: SECTIONS.length,
       startedAt: new Date().toISOString(),
       lastUpdatedAt: new Date().toISOString(),
-      answers: {
-        infrastructure: infrastructureAnswers,
-        equipment: equipmentAnswers,
-      },
+      answers,
     };
 
     const diagnosis = evaluateDiagnosis(finalDraft);
-    
+
     const evalResult: EvaluationResult = {
       id: "DEV-" + crypto.randomUUID().slice(0, 8),
       completedAt: new Date().toISOString(),
@@ -63,7 +61,7 @@ export function DevTools({ setDraft, setResult }: Props) {
       currentStep: step,
       startedAt: new Date().toISOString(),
       lastUpdatedAt: new Date().toISOString(),
-      answers: { infrastructure: {}, equipment: {} },
+      answers: Object.fromEntries(SECTIONS.map((s) => [s.key, {}])) as any,
     });
     setResult(null);
   };
@@ -79,7 +77,11 @@ export function DevTools({ setDraft, setResult }: Props) {
             <Bug size={30} />
           </button>
         </PopoverTrigger>
-        <PopoverContent className="w-64 p-4 shadow-2xl border-border rounded-2xl mb-2" align="end" side="top">
+        <PopoverContent
+          className="w-72 p-4 shadow-2xl border-border rounded-2xl mb-2"
+          align="end"
+          side="top"
+        >
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2 font-heading font-bold text-sm">
               <Bug size={16} className="text-primary" />
@@ -88,48 +90,48 @@ export function DevTools({ setDraft, setResult }: Props) {
           </div>
 
           <div className="space-y-2">
-            <Button 
-              variant="outline" 
-              size="sm" 
+            <Button
+              variant="outline"
+              size="sm"
               className="w-full justify-start gap-2 text-xs"
               onClick={() => fillAndComplete("all-pass")}
             >
               <CheckCircle size={14} className="text-green-500" />
               Completar (Todo Cumple)
             </Button>
-            
-            <Button 
-              variant="outline" 
-              size="sm" 
+
+            <Button
+              variant="outline"
+              size="sm"
               className="w-full justify-start gap-2 text-xs"
               onClick={() => fillAndComplete("some-fail")}
             >
               <AlertTriangle size={14} className="text-yellow-500" />
-              Completar (Fallos)
+              Completar (Con Fallos)
             </Button>
 
-            <div className="grid grid-cols-2 gap-2">
-              <Button 
-                variant="secondary" 
-                size="sm" 
-                className="text-[10px] px-1"
-                onClick={() => setStep(0)}
-              >
-                Paso: Infra
-              </Button>
-              <Button 
-                variant="secondary" 
-                size="sm" 
-                className="text-[10px] px-1"
-                onClick={() => setStep(1)}
-              >
-                Paso: Dotación
-              </Button>
+            {/* Step buttons for each section */}
+            <div className="pt-1">
+              <p className="text-[10px] text-muted-foreground mb-1.5 font-body">Ir al paso:</p>
+              <div className="grid grid-cols-2 gap-1.5">
+                {SECTIONS.map((section, index) => (
+                  <Button
+                    key={section.key}
+                    variant="secondary"
+                    size="sm"
+                    className="text-[10px] px-2 h-7 truncate"
+                    title={section.label}
+                    onClick={() => setStep(index)}
+                  >
+                    {index + 1}. {section.prefix}
+                  </Button>
+                ))}
+              </div>
             </div>
 
-            <Button 
-              variant="ghost" 
-              size="sm" 
+            <Button
+              variant="ghost"
+              size="sm"
               className="w-full justify-start gap-2 text-xs text-destructive hover:text-destructive hover:bg-destructive/10"
               onClick={() => {
                 clearDraft();
@@ -145,4 +147,3 @@ export function DevTools({ setDraft, setResult }: Props) {
     </div>
   );
 }
-

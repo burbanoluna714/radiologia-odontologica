@@ -9,7 +9,6 @@ export interface Question {
   reference: string;
   findingText: string;
   recommendation?: string;
-  isCritical?: boolean;
 }
 
 export interface EvaluationDraft {

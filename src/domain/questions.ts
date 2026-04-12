@@ -37,11 +37,10 @@ export function defineQuestions(key: SectionKey, rawList: RawQuestion[]): Questi
 const talentoHumanoQuestions = defineQuestions("talento_humano", [
   {
     criterion: "Formación del operador",
-    text: "¿El personal que opera el equipo de rayos X cuenta con formación académica en área de la salud?",
-    reference: "Res. 3100/2019 - Talento Humano",
+    text: "El servicio cuenta con talento humano en salud con formación acorde a los servicios ofertados.",
+    reference: "Res. 3100/2019",
     findingText: "El operador no posee formación académica acreditada en salud.",
     recommendation: "Verificar y archivar título o diploma del operador del equipo radiográfico.",
-    isCritical: true,
   },
   {
     criterion: "Inducción en protección radiológica",
@@ -49,7 +48,6 @@ const talentoHumanoQuestions = defineQuestions("talento_humano", [
     reference: "Res. 181434/2002 - ICONTEC NTC 4495",
     findingText: "No se encontró evidencia de capacitación en protección radiológica del operador.",
     recommendation: "Gestionar capacitación en protección radiológica ante entidad avalada (física médica, IAEA, etc.).",
-    isCritical: true,
   },
   {
     criterion: "Registro de talento humano en RETHUS",
@@ -71,7 +69,6 @@ const talentoHumanoQuestions = defineQuestions("talento_humano", [
     reference: "Res. 2346/2007 - Ministerio de la Protección Social",
     findingText: "Exámenes médicos ocupacionales del POE vencidos o inexistentes.",
     recommendation: "Realizar exámenes médicos periódicos anuales a todo el personal expuesto a radiación ionizante.",
-    isCritical: true,
   },
   {
     criterion: "Programa de capacitaciones",
@@ -107,7 +104,6 @@ const infraestructuraQuestions = defineQuestions("infraestructura", [
     reference: "Res. 3100/2019 + Res. 181434/2002",
     findingText: "Las paredes no cuentan con blindaje certificado.",
     recommendation: "Contratar experto para calcular e instalar el blindaje necesario (plomo, barita, etc.).",
-    isCritical: true,
   },
   {
     criterion: "Blindaje radiológico - puerta",
@@ -129,7 +125,6 @@ const infraestructuraQuestions = defineQuestions("infraestructura", [
     reference: "Res. 3100/2019 - Señalización",
     findingText: "Falta señalización internacional de advertencia de radiación.",
     recommendation: "Instalar el símbolo de trébol magenta/negro sobre fondo amarillo en la puerta de acceso.",
-    isCritical: true,
   },
   {
     criterion: "Señalización luminosa",
@@ -214,7 +209,6 @@ const dotacionQuestions = defineQuestions("dotacion", [
     reference: "Res. 3100/2019 - Dotación",
     findingText: "No cuenta con equipo de radiología en funcionamiento.",
     recommendation: "Adquirir y realizar instalación funcional del equipo emisor de rayos X.",
-    isCritical: true,
   },
   {
     criterion: "Registro INVIMA",
@@ -229,7 +223,6 @@ const dotacionQuestions = defineQuestions("dotacion", [
     reference: "Res. 181434/2002",
     findingText: "Sin Licencia de práctica y manejo de fuentes de radiación ionizante.",
     recommendation: "Tramitar solicitud de Licencia aportando memorias de cálculo, manual de bioseguridad y QA.",
-    isCritical: true,
   },
   {
     criterion: "Calibración y Control de Calidad",
@@ -237,7 +230,6 @@ const dotacionQuestions = defineQuestions("dotacion", [
     reference: "Res. 3100/2019 - Dotación",
     findingText: "Control de calidad (pruebas de fuga, kVp, tiempo, etc.) vencido o inexistente.",
     recommendation: "Contratar servicio técnico certificado para realizar las pruebas de control de calidad (anual o bienal).",
-    isCritical: true,
   },
   {
     criterion: "Mantenimiento preventivo",
@@ -287,7 +279,6 @@ const dotacionQuestions = defineQuestions("dotacion", [
     reference: "Res. 181434/2002",
     findingText: "Ausencia de monitoreo dosimétrico personal.",
     recommendation: "Contratar mensualmente el servicio de recambio e informe de dosímetros de solapa.",
-    isCritical: true,
   },
   {
     criterion: "Receptores de imagen",
@@ -309,7 +300,6 @@ const dotacionQuestions = defineQuestions("dotacion", [
     reference: "Protección radiológica",
     findingText: "No hay soporte técnico-físico matemático sobre la atenuación de radiación del área.",
     recommendation: "Elaborar el cálculo de cargas de trabajo, factores de uso y ocupación mediante físico certificado y presentar memorias.",
-    isCritical: true,
   },
 ]);
 
@@ -380,7 +370,6 @@ const procesosPrioritariosQuestions = defineQuestions("procesos_prioritarios", [
     reference: "Res. 3100/2019 - Procesos Prioritarios",
     findingText: "Ausencia de protocolo documentado de técnica radiográfica.",
     recommendation: "Elaborar y socializar protocolo de toma radiográfica por tipo de proyección (periapical, panorámica, etc.).",
-    isCritical: true,
   },
   {
     criterion: "Manual de Bioseguridad y Protección Radiológica",
@@ -388,7 +377,6 @@ const procesosPrioritariosQuestions = defineQuestions("procesos_prioritarios", [
     reference: "Res. 181434/2002 + Res. 3100/2019",
     findingText: "Manual de Bioseguridad y Protección Radiológica inexistente o desactualizado.",
     recommendation: "Elaborar o actualizar el Manual de Bioseguridad y someterlo a aprobación, incluyendo protocolos de protección radiológica.",
-    isCritical: true,
   },
   {
     criterion: "Gestión de residuos radiológicos",
@@ -438,7 +426,6 @@ const historiaClinicaQuestions = defineQuestions("historia_clinica", [
     reference: "Res. 1995/1999 - Historia clínica",
     findingText: "Los reportes radiológicos no están incorporados a la historia clínica del paciente.",
     recommendation: "Establecer mecanismo de integración del reporte e imagen radiográfica a la historia clínica, digital o física.",
-    isCritical: true,
   },
   {
     criterion: "Registro de exposiciones",
@@ -446,7 +433,6 @@ const historiaClinicaQuestions = defineQuestions("historia_clinica", [
     reference: "Res. 181434/2002 - Registros del servicio",
     findingText: "No se lleva registro de las exposiciones radiográficas realizadas.",
     recommendation: "Implementar libro o planilla digital de registros por paciente con fecha, proyección y parámetros técnicos.",
-    isCritical: true,
   },
   {
     criterion: "Firma del reporte radiológico",

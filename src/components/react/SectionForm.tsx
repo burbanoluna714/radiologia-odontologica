@@ -135,11 +135,6 @@ export function SectionForm({
                   <p className="font-body text-xs font-semibold tracking-wider uppercase text-primary/70 mb-1">
                     <span className="sm:hidden">{index + 1}. </span>
                     {q.criterion}
-                    {q.isCritical && (
-                      <span className="ml-2 inline-flex items-center rounded-full bg-destructive/10 px-2 py-0.5 text-[10px] font-bold text-destructive border border-destructive/20">
-                        CRÍTICO
-                      </span>
-                    )}
                   </p>
                   <p className="font-heading text-base sm:text-lg lg:text-xl font-medium text-foreground leading-snug">
                     {q.text}
@@ -181,9 +176,8 @@ export function SectionForm({
                       />
                       <div className="flex items-center justify-center gap-2 w-full">
                         <Icon
-                          className={`w-4 h-4 sm:w-5 sm:h-5 shrink-0 ${
-                            isActive ? iconActiveClass : "text-muted-foreground"
-                          }`}
+                          className={`w-4 h-4 sm:w-5 sm:h-5 shrink-0 ${isActive ? iconActiveClass : "text-muted-foreground"
+                            }`}
                         />
                         <span className="truncate text-center">{label}</span>
                       </div>

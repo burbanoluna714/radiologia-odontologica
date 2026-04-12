@@ -41,10 +41,6 @@ export function evaluateDiagnosis(draft: EvaluationDraft): Diagnosis {
         if (q.recommendation) {
           recommendations.add(q.recommendation);
         }
-
-        if (q.isCritical) {
-          hasCriticalFailure = true;
-        }
       }
     }
 

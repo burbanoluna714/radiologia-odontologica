@@ -16,6 +16,7 @@ import {
   XCircle,
   HelpCircle,
 } from "lucide-react";
+import React from "react";
 import { ThemeToggle } from "./ThemeToggle";
 
 // ---------------------------------------------------------------------------
@@ -119,12 +120,21 @@ export function SectionForm({
                 ? "border-t-muted-foreground"
                 : "border-t-border";
 
+        const showSubtitle = q.subSection && (index === 0 || q.subSection !== questions[index - 1].subSection);
+
         return (
-          <Card
-            key={q.id}
-            data-question-id={q.id}
-            className={`border-t-4 transition-all duration-200 hover:shadow-md ${borderColor}`}
-          >
+          <React.Fragment key={q.id}>
+            {showSubtitle && (
+              <div className="pt-6 pb-2">
+                <h3 className="text-xl sm:text-2xl font-heading font-bold text-primary border-b-2 border-primary pb-2 inline-block">
+                  {q.subSection}
+                </h3>
+              </div>
+            )}
+            <Card
+              data-question-id={q.id}
+              className={`border-t-4 transition-all duration-200 hover:shadow-md ${borderColor}`}
+            >
             <CardContent className="p-4 sm:p-6 lg:p-8">
               {/* Question header */}
               <div className="flex items-start gap-3 mb-4">
@@ -193,6 +203,7 @@ export function SectionForm({
               )}
             </CardContent>
           </Card>
+          </React.Fragment>
         );
       })}
 

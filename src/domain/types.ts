@@ -9,6 +9,7 @@ export interface Question {
   reference: string;
   findingText: string;
   recommendation?: string;
+  subSection?: string;
 }
 
 export interface EvaluationDraft {

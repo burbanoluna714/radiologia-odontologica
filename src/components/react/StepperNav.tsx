@@ -18,13 +18,13 @@ export function StepperNav({ currentStep }: { currentStep: number }) {
           <div className="absolute inset-0 bg-linear-to-r from-primary/5 via-transparent to-primary/5 pointer-events-none" />
 
           {/* 🔥 SCROLL CONTAINER */}
-          <div className="flex items-center gap-4 sm:gap-6 overflow-x-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] py-1">
+          <div className="flex items-center gap-4 sm:gap-6 overflow-x-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] py-4 -my-4 px-4 -mx-4">
             {steps.map((step, index) => {
               const isActive = index === currentStep;
               const isCompleted = index < currentStep;
 
               return (
-                <div key={step} className="flex items-center gap-3 sm:gap-4 shrink-0">
+                <div key={step} className="flex items-center gap-3 sm:gap-4 shrink-0 first:ml-2 last:mr-2">
                   
                   {/* Step */}
                   <div className="flex items-center gap-2">

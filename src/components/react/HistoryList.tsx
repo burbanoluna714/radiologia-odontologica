@@ -19,7 +19,6 @@ import {
 
 const badgeConfig = {
   cumple: { label: "Cumple", className: "bg-green-500 hover:bg-green-600 text-white" },
-  cumple_parcialmente: { label: "Parcial", className: "bg-yellow-500 hover:bg-yellow-600 text-white" },
   no_cumple: { label: "No Cumple", className: "bg-destructive hover:bg-destructive/90 text-white" },
 } as const;
 

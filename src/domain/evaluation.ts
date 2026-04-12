@@ -59,10 +59,8 @@ export function evaluateDiagnosis(draft: EvaluationDraft): Diagnosis {
 
   let overall: Diagnosis["overall"] = "cumple";
 
-  if (hasCriticalFailure || totalScore < 60 || anyBelowMinimum) {
+  if (hasCriticalFailure || totalScore < 100 || anyBelowMinimum || anyBelowGood || findings.length > 0) {
     overall = "no_cumple";
-  } else if (totalScore < 90 || anyBelowGood) {
-    overall = "cumple_parcialmente";
   }
 
   return {

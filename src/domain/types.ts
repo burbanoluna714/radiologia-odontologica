@@ -28,7 +28,7 @@ export interface Finding {
 }
 
 export interface Diagnosis {
-  overall: "cumple" | "cumple_parcialmente" | "no_cumple";
+  overall: "cumple" | "no_cumple";
   /** Score (0-100) por cada sección */
   sectionScores: Record<SectionKey, number>;
   /** Promedio ponderado de todos los sectionScores */

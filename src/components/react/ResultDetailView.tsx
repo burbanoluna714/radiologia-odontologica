@@ -172,16 +172,12 @@ export function ResultDetailView() {
             className={`text-lg px-4 py-1.5 font-heading shadow-sm ${
               diagnosis.overall === "cumple"
                 ? "bg-green-500 hover:bg-green-600 text-white"
-                : diagnosis.overall === "cumple_parcialmente"
-                  ? "bg-yellow-500 hover:bg-yellow-600 text-white"
-                  : "bg-destructive hover:bg-destructive/90 text-white"
+                : "bg-destructive hover:bg-destructive/90 text-white"
             }`}
           >
             {diagnosis.overall === "cumple"
               ? "CUMPLE NORMATIVA"
-              : diagnosis.overall === "cumple_parcialmente"
-                ? "CUMPLE PARCIALMENTE"
-                : "NO CUMPLE NORMATIVA"}
+              : "NO CUMPLE NORMATIVA"}
           </Badge>
         </div>
       </div>

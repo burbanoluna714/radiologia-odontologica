@@ -25,23 +25,17 @@ export function ResultsDashboard({ result, onRestart }: Props) {
   const overallLabel =
     diagnosis.overall === "cumple"
       ? "CUMPLE NORMATIVA"
-      : diagnosis.overall === "cumple_parcialmente"
-        ? "CUMPLE PARCIALMENTE"
-        : "NO CUMPLE NORMATIVA";
+      : "NO CUMPLE NORMATIVA";
 
   const overallBadgeClass =
     diagnosis.overall === "cumple"
       ? "bg-green-500 hover:bg-green-600 text-white"
-      : diagnosis.overall === "cumple_parcialmente"
-        ? "bg-yellow-500 hover:bg-yellow-600 text-white"
-        : "bg-destructive hover:bg-destructive/90 text-white";
+      : "bg-destructive hover:bg-destructive/90 text-white";
 
   const overallMessage =
     diagnosis.overall === "cumple"
       ? "Estás preparado para el proceso de inscripción en el REPS para Radiología Odontológica."
-      : diagnosis.overall === "cumple_parcialmente"
-        ? "Existen algunos detalles menores por ajustar pero la base es sólida."
-        : "Es indispensable resolver los hallazgos críticos antes de proceder con el registro.";
+      : "Es indispensable resolver los hallazgos antes de proceder con el registro.";
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">

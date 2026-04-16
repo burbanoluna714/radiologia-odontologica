@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import { SECTIONS } from "@/domain/sections";
 import {
   Tooltip,
@@ -9,6 +10,36 @@ import {
 export function StepperNav({ currentStep }: { currentStep: number }) {
   const steps = [...SECTIONS.map((s) => s.label), "Resultados"];
 
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const scrollLeft = useRef(0);
+  const [cursor, setCursor] = useState<"grab" | "grabbing">("grab");
+
+  const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    isDragging.current = true;
+    startX.current = e.pageX - el.offsetLeft;
+    scrollLeft.current = el.scrollLeft;
+    setCursor("grabbing");
+  };
+
+  const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDragging.current) return;
+    e.preventDefault();
+    const el = scrollRef.current;
+    if (!el) return;
+    const x = e.pageX - el.offsetLeft;
+    const walk = (x - startX.current) * 1.2; // velocidad de arrastre
+    el.scrollLeft = scrollLeft.current - walk;
+  };
+
+  const stopDragging = () => {
+    isDragging.current = false;
+    setCursor("grab");
+  };
+
   return (
     <TooltipProvider delayDuration={200}>
       <div className="top-4 z-40 mb-10 w-full animate-fade-in-up">
@@ -17,8 +48,16 @@ export function StepperNav({ currentStep }: { currentStep: number }) {
           {/* Glow */}
           <div className="absolute inset-0 bg-linear-to-r from-primary/5 via-transparent to-primary/5 pointer-events-none" />
 
-          {/* 🔥 SCROLL CONTAINER */}
-          <div className="flex items-center gap-4 sm:gap-6 overflow-x-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] py-4 -my-4 px-4 -mx-4">
+          {/* 🔥 SCROLL CONTAINER con drag-to-scroll */}
+          <div
+            ref={scrollRef}
+            className="flex items-center gap-4 sm:gap-6 overflow-x-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] py-4 -my-4 px-4 -mx-4 select-none"
+            style={{ cursor }}
+            onMouseDown={onMouseDown}
+            onMouseMove={onMouseMove}
+            onMouseUp={stopDragging}
+            onMouseLeave={stopDragging}
+          >
             {steps.map((step, index) => {
               const isActive = index === currentStep;
               const isCompleted = index < currentStep;
@@ -46,7 +85,7 @@ export function StepperNav({ currentStep }: { currentStep: number }) {
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <span
-                          className={`font-body text-xs sm:text-sm tracking-wide transition-colors duration-300 leading-tight whitespace-nowrap max-w-[80px] sm:max-w-[120px] lg:max-w-[160px] truncate cursor-default ${
+                          className={`font-body text-xs sm:text-sm tracking-wide transition-colors duration-300 leading-tight whitespace-nowrap max-w-[80px] sm:max-w-[120px] lg:max-w-[160px] truncate cursor-[inherit] ${
                             isActive
                               ? "text-foreground font-semibold"
                               : "text-muted-foreground"

@@ -35,8 +35,8 @@ export function ResultsDashboard({ result, onRestart }: Props) {
 
   const overallMessage =
     diagnosis.overall === "cumple"
-      ? "Estás preparado para el proceso de inscripción en el REPS para Radiología Odontológica."
-      : "Es indispensable resolver los hallazgos antes de proceder con el registro.";
+      ? "Cumple con las condiciones mínimas de habilitación exigidas por la normatividad vigente para la prestación del servicio de salud."
+      : "El servicio no cumple con los requisitos mínimos habilitantes, por lo cual requiere la implementación de acciones de mejora para ajustarse a la normatividad vigente.";
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">

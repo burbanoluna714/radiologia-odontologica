@@ -239,15 +239,6 @@ const infraestructuraQuestions = defineQuestions("infraestructura", {
         "Instalar un ascensor, rampa o sistema elevador certificado que garantice la accesibilidad universal.",
     },
     {
-      criterion: "Ascensor obligatorio",
-      text: "Las edificacieones con mas de 3 pisos contados a partir del nivel más bajo construido, cuentan con ascensor",
-      reference: "Res. 3100/2019",
-      findingText:
-        "La edificación supera los 3 pisos y no cuenta con un sistema de ascensor para el desplazamiento vertical.",
-      recommendation:
-        "Garantizar la instalación y funcionamiento de al menos un ascensor en edificaciones de más de tres niveles.",
-    },
-    {
       criterion: "Seguridad de elevadores",
       text: "Los sistemas alternativos de elevación deben cumplir con que su ubicación no interfiera con el acceso y evacuación por escaleras, estén disponibles para el acceso y evacuación de usuarios, su manejo sea autónomo y garanticen seguridad durante su uso.",
       reference: "Res. 3100/2019",

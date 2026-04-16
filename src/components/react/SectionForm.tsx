@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import React from "react";
 import { ThemeToggle } from "./ThemeToggle";
+import parse from "html-react-parser";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -147,7 +148,7 @@ export function SectionForm({
                     {q.criterion}
                   </p>
                   <p className="font-heading text-base sm:text-lg lg:text-xl font-medium text-foreground leading-snug">
-                    {q.text}
+                    {parse(q.text)}
                   </p>
                   <p className="text-xs text-muted-foreground mt-2 opacity-60 leading-relaxed">
                     Ref: {q.reference}
